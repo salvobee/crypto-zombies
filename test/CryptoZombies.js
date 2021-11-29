@@ -13,8 +13,8 @@ contract("CryptoZombies", (accounts) => {
   it("should be able to create a new zombie", async () => {
     const result = await contractInstance.createRandomZombie(zombieNames[0], {from: alice});
 
-    expect(result.receipt.status, true);
-    expect(result.logs[0].args.name,zombieNames[0]);
+    expect(result.receipt.status).to.equal(true);
+    expect(result.logs[0].args.name).to.equal(zombieNames[0]);
   })
   it("should not allow two zombies", async () => {
     await contractInstance.createRandomZombie(zombieNames[0], {from: alice});
@@ -27,7 +27,7 @@ contract("CryptoZombies", (accounts) => {
       await contractInstance.transferFrom(alice, bob, zombieId, {from: alice});
       const newOwner = await contractInstance.ownerOf(zombieId);
 
-      expect(newOwner, bob);
+      expect(newOwner).to.equal( bob);
     })
   })
   context("with the two-step transfer scenario", async () => {
@@ -38,7 +38,7 @@ contract("CryptoZombies", (accounts) => {
       await contractInstance.transferFrom(alice, bob, zombieId, {from: bob});
       const newOwner = await contractInstance.ownerOf(zombieId);
 
-      expect(newOwner,bob);
+      expect(newOwner).to.equal(bob);
     })
     it("should approve and then transfer a zombie when the owner calls transferFrom", async () => {
       const result = await contractInstance.createRandomZombie(zombieNames[0], {from: alice});
@@ -47,7 +47,7 @@ contract("CryptoZombies", (accounts) => {
       await contractInstance.transferFrom(alice, bob, zombieId, {from: alice});
       const newOwner = await contractInstance.ownerOf(zombieId);
 
-      expect(newOwner,bob);
+      expect(newOwner).to.equal(bob);
     })
   })
   it("zombies should be able to attack another zombie", async () => {
@@ -59,6 +59,6 @@ contract("CryptoZombies", (accounts) => {
     await time.increase(time.duration.days(1));
     await contractInstance.attack(firstZombieId, secondZombieId, {from: alice});
 
-    expect(result.receipt.status, true);
+    expect(result.receipt.status).to.equal( true);
   })
 })
